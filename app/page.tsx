@@ -185,7 +185,6 @@ function EventsModule({ events }: { events: Event[] }) {
         <Sel val={source} onChange={setSource} opts={["All","LA","Dallas"]}/>
         <Sel val={year} onChange={v=>{setYear(v);setMonth("All");}} opts={years}/>
         <Sel val={month} onChange={setMonth} opts={["All",...MONTHS]}/>
-        <Sel val={type} onChange={setType} opts={allTypes}/>
         <Sel val={attendant} onChange={setAttendant} opts={allAttendants}/>
         <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search client, venue..."
           className="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-48"/>
@@ -193,6 +192,31 @@ function EventsModule({ events }: { events: Event[] }) {
           <button onClick={()=>{setSource("All");setYear("All");setMonth("All");setType("All");setAttendant("All");setSearch("");}}
             className="text-xs text-gray-400 hover:text-white border border-gray-700 rounded-lg px-3 py-2">Clear</button>
         )}
+      </div>
+
+      {/* Event Types filter */}
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+        <div className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Filter by Event Type</div>
+        <div className="flex flex-wrap gap-2">
+          {allTypes.filter(t=>t!=="All").map(t=>{
+            const count = parsed.filter(e=>e.event_type===t).length;
+            const color = TYPE_COLORS[t]||"#6b7280";
+            const active = type===t;
+            return (
+              <button key={t} onClick={()=>setType(active?"All":t)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
+                style={{
+                  backgroundColor: active ? color+"33" : "transparent",
+                  borderColor: active ? color : "#374151",
+                  color: active ? color : "#9ca3af",
+                }}>
+                <span style={{width:6,height:6,borderRadius:"50%",backgroundColor:color,display:"inline-block",flexShrink:0}}/>
+                {t}
+                <span className="ml-0.5 opacity-70">{count}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="flex gap-1">
@@ -211,14 +235,9 @@ function EventsModule({ events }: { events: Event[] }) {
             <StatCard label="Top Attendant" value={stats.topAtt} color="text-yellow-400"/>
             <StatCard label="With Feedback" value={stats.fb} sub="client reviews" color="text-purple-400"/>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card><SectionTitle>Event Types</SectionTitle>
-              <BarChart data={Object.entries(stats.types).map(([l,c])=>({label:l,count:c,color:TYPE_COLORS[l]||"#6b7280"}))}/>
-            </Card>
-            <Card><SectionTitle>Monthly Volume</SectionTitle>
-              <BarChart data={Object.entries(stats.monthly).sort((a,b)=>a[0].localeCompare(b[0])).map(([l,c])=>({label:l.split(" ")[1]+" "+l.split("-")[0],count:c,color:"#3b82f6"}))}/>
-            </Card>
-          </div>
+          <Card><SectionTitle>Monthly Volume</SectionTitle>
+            <BarChart data={Object.entries(stats.monthly).sort((a,b)=>a[0].localeCompare(b[0])).map(([l,c])=>({label:l.split(" ")[1]+" "+l.split("-")[0],count:c,color:"#3b82f6"}))}/>
+          </Card>
         </div>
       )}
 
