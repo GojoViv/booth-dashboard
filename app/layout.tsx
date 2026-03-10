@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BoothOS Dashboard",
+  title: "Markybooth Dashboard",
   description: "Photo Booth Events — LA & Dallas",
 };
 

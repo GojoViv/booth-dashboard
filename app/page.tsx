@@ -706,7 +706,7 @@ export default function Dashboard() {
 
   if (loading) return (
     <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="text-gray-400 text-lg animate-pulse">Loading BoothOS...</div>
+      <div className="text-gray-400 text-lg animate-pulse">Loading Markybooth...</div>
     </div>
   );
 
@@ -717,7 +717,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold tracking-tight">📸 BoothOS</h1>
+          <h1 className="text-xl font-bold tracking-tight">📸 Markybooth</h1>
           <p className="text-gray-500 text-xs">Operations Dashboard · LA &amp; Dallas</p>
         </div>
         <div className="text-gray-500 text-xs">{events.length.toLocaleString()} events tracked</div>
