@@ -699,8 +699,8 @@ export default function Dashboard() {
 
   useEffect(()=>{
     Promise.all([
-      fetch("/events.json").then(r=>r.json()),
-      fetch("/sheets.json").then(r=>r.json()),
+      fetch("/api/events").then(r=>r.json()),
+      fetch("/api/sheets").then(r=>r.json()),
     ]).then(([e,s])=>{ setEvents(e); setSheets(s); setLoading(false); });
   },[]);
 
